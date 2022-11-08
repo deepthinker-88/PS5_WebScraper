@@ -95,7 +95,7 @@ def check_if_ps5_controller_is_available():
     item_not_in_stock = get_ps5_controller_page_html(item_name)
     if item_in_stock:
         print("Ps5 Controller is in stock!!")
-        send_ps5_controller_mail_if_in_stock()
+        send_ps5_controller_mail_if_available_online()
         
     elif item_not_in_stock:
         send_ps5_controller_mail_if_not_in_stock()
@@ -103,7 +103,7 @@ def check_if_ps5_controller_is_available():
         
 
 
-def send_ps5_controller_mail_if_in_stock():
+def send_ps5_controller_mail_if_available_online():
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
@@ -139,4 +139,5 @@ def send_ps5_controller_mail_if_not_in_stock():
 if __name__ == "__main__":
     check_if_ps5_console_is_available()
     check_if_ps5_controller_is_available()
+    
     
