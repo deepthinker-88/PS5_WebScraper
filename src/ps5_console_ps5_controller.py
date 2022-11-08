@@ -139,4 +139,3 @@ def send_ps5_controller_mail_if_not_in_stock():
 if __name__ == "__main__":
     check_if_ps5_console_is_available()
     check_if_ps5_controller_is_available()
-
