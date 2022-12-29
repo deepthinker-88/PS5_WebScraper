@@ -2,6 +2,7 @@ import smtplib
 from bs4 import BeautifulSoup
 import requests
 
+#dictionary representing two links to the ps5 console page, and ps5 controller page
 ps5_console_item_name_to_url = {
 "PS5 Console": "https://www.amazon.co.uk/PlayStation-9395003-5-Console/dp/B08H95Y452/ref=sr_1_1?dchild=1&keywords=ps5&qid=1633424672&sr=8-1"
 }
@@ -10,6 +11,7 @@ ps5_controller_item_name_to_url = {
 
 
 
+# function that returns html page of PS5 Console
 def get_ps5_console_page_html(item_name):
     url = ps5_console_item_name_to_url[item_name]
     headers = {
@@ -17,7 +19,7 @@ def get_ps5_console_page_html(item_name):
     page = requests.get(url, headers=headers)
     return page.content
 
-
+# function that returns html page of PS5 Controller
 def get_ps5_controller_page_html(item_name):
     url = ps5_controller_item_name_to_url[item_name]
     headers = {
@@ -26,8 +28,7 @@ def get_ps5_controller_page_html(item_name):
     return page.content
 
 
-
-
+# function that scrapes the ps5 webpage
 def ps5_console_controller_webscraping(page_html):
     soup = BeautifulSoup(page_html,'html.parser')
     available_to_buy = soup.find(
@@ -36,7 +37,7 @@ def ps5_console_controller_webscraping(page_html):
     return available_to_buy is not None
 
 
-
+# function that checks if PS5 Console is available/unavailable - sends e-mail depending on the outcome
 def check_if_ps5_console_is_available():
     item_name = "PS5 Console"
     #item_html = get_ps5_console_page_html(item_name)
@@ -53,7 +54,7 @@ def check_if_ps5_console_is_available():
     return item_in_stock
     
 
-
+# function that sends e-mail
 def send_ps5_console_mail_if_in_stock():
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
@@ -70,6 +71,7 @@ def send_ps5_console_mail_if_in_stock():
                     )
 
 
+# function that sends e-mail
 def send_ps5_console_mail_if_not_in_stock():
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
@@ -87,7 +89,7 @@ def send_ps5_console_mail_if_not_in_stock():
 
 
 
-
+# function that checks if PS5 Controller is available/unavailable - sends e-mail depending on the outcome
 def check_if_ps5_controller_is_available():
     item_name = "PS5 Controller"
     #item_html = check_ps5_controller_in_stock(item_name)
@@ -102,7 +104,7 @@ def check_if_ps5_controller_is_available():
     
         
 
-
+# function that sends e-mail
 def send_ps5_controller_mail_if_available_online():
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
@@ -119,6 +121,7 @@ def send_ps5_controller_mail_if_available_online():
                     )
 
 
+# function that sends e-mail
 def send_ps5_controller_mail_if_not_in_stock():
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
