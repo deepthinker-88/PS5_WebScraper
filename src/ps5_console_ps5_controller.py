@@ -1,8 +1,12 @@
+import os
 import smtplib
 from bs4 import BeautifulSoup
 import requests
+from dotenv import load_dotenv
+load_dotenv()
+MY_EMAIL = os.getenv('MY_EMAIL')
+SERVER_PASSWORD = os.getenv('SERVER_PASSWORD')
 
-#dictionary representing two links to the ps5 console page, and ps5 controller page
 ps5_console_item_name_to_url = {
 "PS5 Console": "https://www.amazon.co.uk/PlayStation-9395003-5-Console/dp/B08H95Y452/ref=sr_1_1?dchild=1&keywords=ps5&qid=1633424672&sr=8-1"
 }
@@ -40,13 +44,12 @@ def ps5_console_controller_webscraping(page_html):
 # function that checks if PS5 Console is available/unavailable - sends e-mail depending on the outcome
 def check_if_ps5_console_is_available():
     item_name = "PS5 Console"
-    #item_html = get_ps5_console_page_html(item_name)
     item_in_stock = get_ps5_console_page_html(item_name)
     item_not_in_stock = get_ps5_console_page_html(item_name)
     
 
     if item_in_stock:
-        print("PS5 Console is available on Amazon but only by invitation only")
+        print("PS5 Console is available on Amazon")
         send_ps5_console_mail_if_in_stock()
     elif item_not_in_stock:
         print("Sorry, the Ps5 Console is unavailable")
@@ -61,13 +64,13 @@ def send_ps5_console_mail_if_in_stock():
     server.starttls()
     server.ehlo()
 
-    server.login("jamesleight@googlemail.com", "bvpcodlqxkuhdppx")
+    server.login(MY_EMAIL, SERVER_PASSWORD)
 
     subject = "PS5 Console Update"
-    body = "Congratulations James-Leigh, the PS5 Console is in stock on amazon, please request by invitation and it can be ordered on your behalf!!! "
+    body = "Congratulations James-Leigh, the PS5 Console is in stock on Amazon "
     msg = f"Subject: {subject}\n\n{body}"
-    server.sendmail("jamesleight@googlemail.com",
-                    "jamesleight@googlemail.com", msg
+    server.sendmail(MY_EMAIL,
+                    MY_EMAIL, msg
                     )
 
 
@@ -78,13 +81,13 @@ def send_ps5_console_mail_if_not_in_stock():
     server.starttls()
     server.ehlo()
 
-    server.login("jamesleight@googlemail.com", "bvpcodlqxkuhdppx")
+    server.login(MY_EMAIL)
 
     subject = "PS5 Console Update"
     body = "Unfortunately James-Leigh, the PS5 Console is not in stock, will try again later!!! "
     msg = f"Subject: {subject}\n\n{body}"
-    server.sendmail("jamesleight@googlemail.com",
-                    "jamesleight@googlemail.com", msg
+    server.sendmail(MY_EMAIL,
+                    MY_EMAIL, msg
                     )
 
 
@@ -92,7 +95,6 @@ def send_ps5_console_mail_if_not_in_stock():
 # function that checks if PS5 Controller is available/unavailable - sends e-mail depending on the outcome
 def check_if_ps5_controller_is_available():
     item_name = "PS5 Controller"
-    #item_html = check_ps5_controller_in_stock(item_name)
     item_in_stock = get_ps5_controller_page_html(item_name)
     item_not_in_stock = get_ps5_controller_page_html(item_name)
     if item_in_stock:
@@ -111,13 +113,13 @@ def send_ps5_controller_mail_if_available_online():
     server.starttls()
     server.ehlo()
 
-    server.login("jamesleight@googlemail.com", "bvpcodlqxkuhdppx")
+    server.login(MY_EMAIL, SERVER_PASSWORD)
 
     subject = "PS5 Controller Update"
     body = "Congratulations James-Leigh, the PS5 Controller is in stock !!! "
     msg = f"Subject: {subject}\n\n{body}"
-    server.sendmail("jamesleight@googlemail.com",
-                    "jamesleight@googlemail.com", msg
+    server.sendmail(MY_EMAIL,
+                    MY_EMAIL, msg
                     )
 
 
@@ -128,7 +130,7 @@ def send_ps5_controller_mail_if_not_in_stock():
     server.starttls()
     server.ehlo()
 
-    server.login("jamesleight@googlemail.com", "bvpcodlqxkuhdppx")
+    server.login(MY_EMAIL, SERVER_PASSWORD)
 
     subject = "PS5 Controller Update"
     body = "Unfortunately James-Leigh, the PS5 Controller is not in stock, will try again later !!! "
